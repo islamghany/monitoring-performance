@@ -14,7 +14,7 @@ const port = 8181;
 import os from 'os'
 const num_processes = os.cpus().length;
 let as=0;
-// Brew breaks for me more than it solves a problem, so I 
+// Brew breaks for me more than it solves a problem, so I
 // installed redis from https://redis.io/topics/quickstart
 // have to actually run redis via: $ redis-server (go to location of the binary)
 // check to see if it's running -- redis-cli monitor
@@ -70,7 +70,7 @@ if (cluster.isMaster) {
 
     // in this case, we are going to start up a tcp connection via the net
     // module INSTEAD OF the http module. Express will use http, but we need
-    // an independent tcp port open for cluster to work. This is the port that 
+    // an independent tcp port open for cluster to work. This is the port that
     // will face the internet
 	const server = net.createServer({ pauseOnConnect: true }, (connection) =>{
 		// We received a connection and need to pass it to the appropriate
@@ -90,8 +90,8 @@ if (cluster.isMaster) {
     app.use('/h',(req,res)=>res.send({messgae:"hello"}))
 	// Don't expose our internal server to the outside world.
 	const server = app.listen(0, 'localhost');
-	
-    // console.log("Worker listening...");    
+
+    // console.log("Worker listening...");
 	const io = new socketio.Server(server,{
 		cors: {
 			origin: "http://localhost:3000",
@@ -114,7 +114,6 @@ if (cluster.isMaster) {
 		socketMain(io,socket);
 		console.log(`connected to worker: ${cluster.worker.id}`);
     });
-	io.o
 	// Listen to messages sent from the master. Ignore everything else.
 	process.on('message', function(message, connection) {
 		if (message !== 'sticky-session:connection') {

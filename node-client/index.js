@@ -4,18 +4,11 @@ import io from 'socket.io-client';
 let socket = io('http://127.0.0.1:8181');
 
 socket.on('connect',()=>{
-    // console.log('I connected to the socket server... hooray!')
-    // we need a way to identify this machine to whomever concerned
-    const nI = os.networkInterfaces();
-    // console.log(nI)
-    let macA;
-    // loop through all the nI for this machine and find a non-internal one
-    for(let key in nI){
 
-        // FOR TESTING PURPOSES!!!
-        macA = Math.floor(Math.random() * 3) + 1;
-        break;
-        // FOR TESTING PURPOSES!!!
+    const nI = os.networkInterfaces();
+    console.log(nI)
+    let macA;
+    for(let key in nI){
 
         if(!nI[key][0].internal){
             if(nI[key][0].mac === '00:00:00:00:00:00'){
@@ -31,19 +24,18 @@ socket.on('connect',()=>{
     socket.emit('clientAuth','5t78yuhgirekjaht32i3')
 
     performanceData().then((allPerformanceData)=>{
-        console.log(allPerformanceData)
         socket.emit('initPerfData',allPerformanceData)
     });
 
     // start sending over data on interval
     let perfDataInterval = setInterval(()=>{
         performanceData().then((allPerformanceData)=>{
-             console.log(allPerformanceData)
+             //console.log(allPerformanceData)
             allPerformanceData.macA = macA;
             socket.emit('perfData',allPerformanceData);
         })
     },1000);
-    
+
     socket.on('disconnect',()=>{
         clearInterval(perfDataInterval);
     })

@@ -5,10 +5,11 @@ import Machine from './models/Machine.js';
 function socketMain(io, socket){
     let macA;
     // console.log("A socket connectd!", socket.id)
- 
+
     socket.on('clientAuth',(key)=>{
         if(key === '5t78yuhgirekjaht32i3'){
             // valid nodeClient
+            console.log("node-client has connect")
             socket.join('clients');
         }else if(key === 'uihjt3refvdsadf'){
             // valid ui client has joined
