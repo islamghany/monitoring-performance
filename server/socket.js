@@ -1,5 +1,5 @@
 import mongoose from 'mongoose'
-mongoose.connect('mongodb+srv://islamghany:islamghany@cluster0.6jdgx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true});
+mongoose.connect(proccess.env.DB_NAME, {useNewUrlParser: true});
 import Machine from './models/Machine.js';
 
 function socketMain(io, socket){
